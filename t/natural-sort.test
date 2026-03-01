@@ -1,0 +1,22 @@
+#! /bin/bash
+cat <<---
+This test checks that natural sorting orders numeric parts numerically.
+--
+
+nginx_start
+content=$(fetch /natural-sort/)
+
+# With natural sort, file2 must appear before file10.
+# Lexicographic sort would put file10 before file2.
+if grep -A 999 '\bfile2\b' <<< "${content}" | grep -q '\bfile10\b' ; then
+	: # file2 before file10 — correct
+else
+	fail 'Natural sort failed: file2 should appear before file10\n'
+fi
+
+# Also verify file10 appears before file20.
+if grep -A 999 '\bfile10\b' <<< "${content}" | grep -q '\bfile20\b' ; then
+	: # file10 before file20 — correct
+else
+	fail 'Natural sort failed: file10 should appear before file20\n'
+fi

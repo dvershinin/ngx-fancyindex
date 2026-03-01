@@ -25,6 +25,7 @@
 #include <ngx_log.h>
 
 #include "template.h"
+#include "strnatcmp.h"
 
 #if defined(__GNUC__) && (__GNUC__ >= 3)
 # define ngx_force_inline __attribute__((__always_inline__))
@@ -1362,7 +1363,8 @@ ngx_http_fancyindex_cmp_entries_name_cs_desc(const void *one, const void *two)
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
     ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
 
-    return (int) ngx_strcmp(second->name.data, first->name.data);
+    return strnatcmp((const char *) second->name.data,
+                     (const char *) first->name.data);
 }
 
 
@@ -1372,7 +1374,8 @@ ngx_http_fancyindex_cmp_entries_name_ci_desc(const void *one, const void *two)
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
     ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
 
-    return (int) ngx_strcasecmp(second->name.data, first->name.data);
+    return strnatcasecmp((const char *) second->name.data,
+                         (const char *) first->name.data);
 }
 
 
@@ -1402,7 +1405,8 @@ ngx_http_fancyindex_cmp_entries_name_cs_asc(const void *one, const void *two)
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
     ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
 
-    return (int) ngx_strcmp(first->name.data, second->name.data);
+    return strnatcmp((const char *) first->name.data,
+                     (const char *) second->name.data);
 }
 
 
@@ -1412,7 +1416,8 @@ ngx_http_fancyindex_cmp_entries_name_ci_asc(const void *one, const void *two)
     ngx_http_fancyindex_entry_t *first = (ngx_http_fancyindex_entry_t *) one;
     ngx_http_fancyindex_entry_t *second = (ngx_http_fancyindex_entry_t *) two;
 
-    return (int) ngx_strcasecmp(first->name.data, second->name.data);
+    return strnatcasecmp((const char *) first->name.data,
+                         (const char *) second->name.data);
 }
 
 
